@@ -4,7 +4,6 @@
 
 # Prerequisites
 
-## Prerequisites
 
 ### System
 
