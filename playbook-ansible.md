@@ -5,7 +5,8 @@
 1. Replace the <mark style="color:red;">`hosts:`</mark> option to <mark style="color:red;">**localhost**</mark> or other <mark style="color:red;">**host**</mark> of your choice.
 2. With this playbook the <mark style="color:red;">**credentials**</mark> and the <mark style="color:red;">**dashboard port**</mark> remains the default.
 
-```yaml
+---
+
 - name: Install Wazuh Docker
   hosts: wazuh_server
   become: true
@@ -41,15 +42,15 @@
         state: present
       when: ansible_distribution in ['Ubuntu', 'Debian']
 
-    - name: Add Docker APT key
-      apt_key:
-        url: https://download.docker.com/linux/{{ ansible_distribution|lower }}/gpg
-        state: present
+    - name: Add Docker APT key to trusted.gpg.d
+      shell: "curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/docker.gpg"
+      args:
+        warn: no
       when: ansible_distribution in ['Ubuntu', 'Debian']
 
     - name: Add Docker APT repository
       apt_repository:
-        repo: deb [arch=amd64] https://download.docker.com/linux/{{ ansible_distribution|lower }} {{ ansible_lsb.codename }} stable
+        repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_lsb.codename }} stable
         state: present
       when: ansible_distribution in ['Ubuntu', 'Debian']
 
@@ -81,4 +82,3 @@
       command: docker-compose -f docker-compose.yml up -d
       args:
         chdir: /opt/wazuh-docker/single-node
-```
