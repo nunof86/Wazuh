@@ -4,7 +4,8 @@
 
 1. Replace the <mark style="color:red;">`hosts:`</mark> option to <mark style="color:red;">**localhost**</mark> or other <mark style="color:red;">**host**</mark> of your choice.
 2. With this playbook the <mark style="color:red;">**credentials**</mark> and the <mark style="color:red;">**dashboard port**</mark> remains the default.
-
+3. 
+```yaml
 ---
 
 - name: Install Wazuh Docker
@@ -82,3 +83,4 @@
       command: docker-compose -f docker-compose.yml up -d
       args:
         chdir: /opt/wazuh-docker/single-node
+  ```
